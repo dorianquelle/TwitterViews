@@ -34,9 +34,8 @@ for(i in 1:nrow(media_accs)){
   # Download all Tweets for each media account Between 2022-11-01 and 2023-03-08
   print(paste0("Downloading Tweets for ", handle, " with ID ", id, ".", " Account: ", i, "/", nrow(media_accs)))
   print(paste("Start Time:", Sys.time()))
-
-  # Check whether "../Data/{handle}/" exists
-  if(!dir.exists(paste0("../Data/",handle,"/"))){
+  try({
+    if(!dir.exists(paste0("../Data/",handle,"/"))){
     tweets <- get_user_timeline(
                 x = id,
                 start_tweets = "2022-11-01T00:00:00Z",
@@ -48,5 +47,6 @@ for(i in 1:nrow(media_accs)){
      print(paste0("Directory for ", handle, " already exists."))
      print(paste0("Skipping ", handle, "."))
   }
+  })
 }
 
