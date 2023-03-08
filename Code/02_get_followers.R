@@ -23,9 +23,9 @@ get_followers <- function(id, handle, token){
                             bearer_token = token
                             )
 
-                followers <- followers %>% 
-                mutate(Twitter.Handle = handle,
-                        Twitter.ID = id)
+                # Add Twitter Handle and Twitter ID to followers
+                followers["Twitter.Handle"] <- as.character(handle)
+                followers["Twitter.ID"] <- as.character(id)
 
                 if(!dir.exists(paste0("../Followers/Media/",handle,"/"))){
                     dir.create(paste0("../Followers/Media/",handle,"/"))
@@ -53,6 +53,7 @@ get_followers <- function(id, handle, token){
 # Where n is the number of tokens that we have
 # Get the number of tokens
 n_token <- length(tokens)
+# Create Test Run
 
 # Create a list of arguments for each worker
 args <- lapply(1:nrow(media_accs), function(i){
@@ -60,7 +61,7 @@ args <- lapply(1:nrow(media_accs), function(i){
          handle = media_accs$Twitter.Handle[i])
 })
 
-# Split args into three subsets
+# Split args into n_token subsets
 args_list <- split(args, rep(1:n_token, length.out = length(args)))
 for(i in 1:n_token){
     for(j in 1:length(args_list[[i]])){
