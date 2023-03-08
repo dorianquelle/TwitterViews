@@ -56,8 +56,11 @@ for(i in 1:nrow(media_accs)){
 # Repeat for State Media "../Data/Clean_StateMediaTwitter.csv"
 state <- read.csv("../Mediadatabases/Clean_StateMediaTwitter.csv")
 handles <- state$Twitter.Handle
+# Remove leading or trailing whitespace
+handles <- str_trim(handles)
 
 for(i in 1:nrow(state)){
+  tryCatch({
   print(paste0("Downloading Tweets for ", handles[i], ".", " Account: ", i, "/", nrow(state)))
   print(paste("Start Time:", Sys.time()))
   if(!dir.exists(paste0("../StateMedia/",handles[i],"/"))){
@@ -70,5 +73,10 @@ for(i in 1:nrow(state)){
                 )
     } else {
         print(paste0("Directory for ", handles[i], " already exists."))
-    } 
+    }}, error = function(e) {
+    print(paste("Error for", handle))
+    print("Error",e)
+    }
+  )
   }
+
