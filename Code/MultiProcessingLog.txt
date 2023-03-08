@@ -1,0 +1,58 @@
+starting worker pid=65815 on localhost:11317 at 12:46:51.520
+starting worker pid=65814 on localhost:11317 at 12:46:51.520
+starting worker pid=65813 on localhost:11317 at 12:46:51.520
+[1] "Start Time: 2023-03-08 12:47:01 for AlterNet 1.9882668973878"
+[1] "Start Time: 2023-03-08 12:47:01 for TheAtlantic 41.310865804553"
+Processing 18851248
+Processing 35773039
+[1] "Start Time: 2023-03-08 12:47:01 for BuzzFeedNews 36.079884483479"
+Processing 1020058453
+Rate limit reached. Rate limit will reset at 2023-03-08 12:53:04 
+Sleeping for 363 seconds. 
+Rate limit reached. Rate limit will reset at 2023-03-08 12:53:04 
+Sleeping for 363 seconds. 
+Total data points:  1000 
+==Total data points:  2000 
+==Total data points:  3000 
+Total data points:  4000 
+==Total data points:  5000 
+==Total data points:  6000 
+Total data points:  7000 
+==Total data points:  8000 
+==Total data points:  9000 
+Total data points:  10000 
+==Total data points:  11000 
+==Total data points:  12000 
+==Total data points:  13000 
+Total data points:  14000 
+==Total data points:  15000 
+==Rate limit reached. Rate limit will reset at 2023-03-08 13:02:01 
+Sleeping for 851 seconds. 
+========================================================================================================================================================================Total data points:  1000 
+Total data points:  1000 
+Total data points:  2000 
+Total data points:  2000 
+Total data points:  3000 
+Total data points:  3000 
+=Total data points:  4000 
+Total data points:  4000 
+Total data points:  5000 
+Total data points:  5000 
+Total data points:  6000 
+Total data points:  6000 
+=Total data points:  7000 
+Total data points:  7000 
+Total data points:  8000 
+Total data points:  8000 
+Total data points:  9000 
+Total data points:  9000 
+Total data points:  10000 
+=Total data points:  10000 
+Total data points:  11000 
+Total data points:  11000 
+Total data points:  12000 
+Total data points:  12000 
+Total data points:  13000 
+Total data points:  13000 
+=Total data points:  14000 
+Total data points:  14000 
