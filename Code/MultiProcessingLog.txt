@@ -56,3 +56,10 @@ Total data points:  13000
 Total data points:  13000 
 =Total data points:  14000 
 Total data points:  14000 
+Total data points:  15000 
+Total data points:  15000 
+Rate limit reached. Rate limit will reset at 2023-03-08 13:08:07 
+Sleeping for 852 seconds. 
+Rate limit reached. Rate limit will reset at 2023-03-08 13:08:07 
+Sleeping for 850 seconds. 
+===============================================================================================================================
