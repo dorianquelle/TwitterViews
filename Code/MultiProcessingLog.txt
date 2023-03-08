@@ -232,4 +232,55 @@ Total data points:  73999
 Total data points:  74999 
 =Rate limit reached. Rate limit will reset at 2023-03-08 14:02:19 
 Sleeping for 850 seconds. 
-===========================================================
+=========================================================================================Total data points:  60999 
+Total data points:  61000 
+Total data points:  61999 
+Total data points:  62000 
+Total data points:  62999 
+Total data points:  63000 
+=Total data points:  63999 
+Total data points:  64000 
+Total data points:  64999 
+Total data points:  65000 
+Total data points:  65999 
+Total data points:  66000 
+=Total data points:  66999 
+Total data points:  67000 
+Total data points:  67999 
+Total data points:  68000 
+Total data points:  68999 
+Total data points:  69000 
+=Total data points:  69999 
+Total data points:  70000 
+Total data points:  70999 
+Total data points:  71000 
+Total data points:  71999 
+Total data points:  72000 
+=Total data points:  72999 
+Total data points:  73000 
+Total data points:  73999 
+Total data points:  74000 
+Total data points:  74999 
+Total data points:  75000 
+Rate limit reached. Rate limit will reset at 2023-03-08 14:08:25 
+Sleeping for 849 seconds. 
+=Rate limit reached. Rate limit will reset at 2023-03-08 14:08:26 
+Sleeping for 849 seconds. 
+=========================================================================================================================================Total data points:  75999 
+Total data points:  76999 
+Total data points:  77999 
+==Total data points:  78999 
+Total data points:  79999 
+Total data points:  80999 
+==Total data points:  81999 
+Total data points:  82999 
+Total data points:  83999 
+==Total data points:  84999 
+Total data points:  85999 
+Total data points:  86999 
+==Total data points:  87999 
+Total data points:  88999 
+Total data points:  89999 
+==Rate limit reached. Rate limit will reset at 2023-03-08 14:17:24 
+Sleeping for 849 seconds. 
+======
