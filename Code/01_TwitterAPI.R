@@ -52,3 +52,23 @@ for(i in 1:nrow(media_accs)){
     print(paste("Error",e))
   })
 }
+
+# Repeat for State Media "../Data/Clean_StateMediaTwitter.csv"
+state <- read.csv("../Mediadatabases/Clean_StateMediaTwitter.csv")
+handles <- state$Twitter.Handle
+
+for(i in 1:nrow(state)){
+  print(paste0("Downloading Tweets for ", handles[i], ".", " Account: ", i, "/", nrow(state)))
+  print(paste("Start Time:", Sys.time()))
+  if(!dir.exists(paste0("../StateMedia/",handles[i],"/"))){
+      tweets <- get_all_tweets(
+                  users = handles[i],
+                  start_tweets = "2022-11-01T00:00:00Z",
+                  end_tweets = "2023-03-07T00:00:00Z",
+                  data_path = paste0("../StateMedia/",handles[i],"/"),
+                  n = Inf
+                )
+    } else {
+        print(paste0("Directory for ", handles[i], " already exists."))
+    } 
+  }
