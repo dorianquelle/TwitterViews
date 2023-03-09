@@ -9,3 +9,10 @@
 /Followers/.DS_Store
 /Followers/Media/.DS_Store
 /Followers/*
+/.vscode/*
+/.vscode/settings.json
+/MultiProcessingLog.txt
+/Results/.DS_Store
+/Code/MultiProcessingLog.txt
+
+
