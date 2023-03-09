@@ -4,7 +4,7 @@ library(tidyverse)
 library(ggplot2)
 library(readr)
 
-clean_rds <- function(path) { # nolint: object_usage_linter.
+clean_rds <- function(path) { 
     followers <- readRDS(path)
     followers <- cbind(followers, followers$public_metrics %>% unnest())
     followers <- followers %>% select(-"public_metrics", -"entities")
@@ -30,10 +30,15 @@ lapply(users, function(x) {
     files = list.files(paste0("../Followers/Media/", x), full.names = TRUE)
     lapply(files, function(y) {
         if (substr(x, 1, 1) != ".") {
-            clean_rds(y)
+            new_path <- paste0(str_replace(str_replace(y, ".rds", ".csv"),"Media","Media_clean"),".gz") %>% 
+                strsplit(., "/") %>% unlist %>% .[-4] %>% paste0(.,collapse = "/")
+            if(!file.exists(new_path)){
+                clean_rds(y)    
+            }
         }
     })
 })
+
 library(ggplot2)
 # Create all follower-order plots
 for(file in list.files("../Followers/Media_clean/")){
@@ -55,28 +60,9 @@ for(file in list.files("../Followers/Media_clean/")){
     ggsave(
         filename = path, 
         plot = p,
-        width = 10,
-        height = 10,
-        dpi = 300
+        width = 5,
+        height = 5,
+        dpi = 50
         )
     print(paste0("Successfully saved plot for: ", file))
 }
-
-# Load YahooNews_followers.csv.gz
-followers <- read_csv("../Followers/Media_clean/YahooNews_followers.csv.gz")
-# Filter out all users that were created before 2005
-followers <- followers %>% filter(created_at > "2005-01-01" & created_at < "2023-04-01")
-# Create a plot
-followers %>%
-mutate(followers_col = ifelse(followers_count == 0, "red", "black")) %>%
-ggplot(data = , aes(x = follow_order, y = created_at))+
-geom_point(aes(col = followers_col), alpha = 0.1, cex = 0.001)+
-  theme_bw()+
-  theme(legend.position = "none", 
-        legend.margin=margin(0,0,0,0),
-        legend.box.margin=margin(-5,-5,0,0))+
-  xlab("Follower Order")+
-  ylab("Creation Date")+
-  scale_fill_viridis_c()+
-  xlim(500000,NA)
-
