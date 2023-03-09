@@ -62,3 +62,21 @@ for(file in list.files("../Followers/Media_clean/")){
     print(paste0("Successfully saved plot for: ", file))
 }
 
+# Load YahooNews_followers.csv.gz
+followers <- read_csv("../Followers/Media_clean/YahooNews_followers.csv.gz")
+# Filter out all users that were created before 2005
+followers <- followers %>% filter(created_at > "2005-01-01" & created_at < "2023-04-01")
+# Create a plot
+followers %>%
+mutate(followers_col = ifelse(followers_count == 0, "red", "black")) %>%
+ggplot(data = , aes(x = follow_order, y = created_at))+
+geom_point(aes(col = followers_col), alpha = 0.1, cex = 0.001)+
+  theme_bw()+
+  theme(legend.position = "none", 
+        legend.margin=margin(0,0,0,0),
+        legend.box.margin=margin(-5,-5,0,0))+
+  xlab("Follower Order")+
+  ylab("Creation Date")+
+  scale_fill_viridis_c()+
+  xlim(500000,NA)
+
