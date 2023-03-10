@@ -42,37 +42,44 @@ lapply(users, function(x) {
 # Create all follower-order plots
 for(file in list.files("../Followers/Media_clean/")){
     # Check whether png already exists
+    if("rds" %in% file | "gz" %in% file){
+        print(paste0("File malformed: ", file))
+        next
+    }
     path <- paste0("../Results/FollowerOrder/",str_replace(file,".csv.gz",".png"))
     if(file.exists(path)){
         print(paste0("File already exists: ", file))
         next
     }
     # Make load silent
-    suppressMessages(followers <- read_csv(paste0("../Followers/Media_clean/",file)))
-    followers <- followers %>% filter(created_at > "2005-01-01" & created_at < "2023-04-01")
-    print(paste("Successfully read file:", file))
+    tryCatch({
+        suppressMessages(followers <- read_csv(paste0("../Followers/Media_clean/",file)))
+        followers <- followers %>% filter(created_at > "2005-01-01" & created_at < "2023-04-01")
+        print(paste("Successfully read file:", file))
 
-    followers <- followers %>% distinct(id, .keep_all = TRUE)
-    # Create new follower_order2
-    followers$follow_order2 <- nrow(followers):1
+        followers <- followers %>% distinct(id, .keep_all = TRUE)
+        # Create new follower_order2
+        followers$follow_order2 <- nrow(followers):1
 
-    p <- ggplot(data = followers, aes(x = follow_order2, y = created_at))+
-      geom_bin_2d(bins = 250)+
-      theme_bw()+
-      theme(legend.position = "none", 
-            legend.margin=margin(0,0,0,0),
-            legend.box.margin=margin(-5,-5,0,0))+
-      xlab("Follower Order")+
-      ylab("Creation Date")+
-      scale_fill_viridis_c()
-    ggsave(
-        filename = path, 
-        plot = p,
-        width = 5,
-        height = 5,
-        dpi = 150
-        )
-    print(paste0("Successfully saved plot for: ", file))
+        p <- ggplot(data = followers, aes(x = follow_order2, y = created_at))+
+        geom_bin_2d(bins = 250)+
+        theme_bw()+
+        theme(legend.position = "none", 
+                legend.margin=margin(0,0,0,0),
+                legend.box.margin=margin(-5,-5,0,0))+
+        xlab("Follower Order")+
+        ylab("Creation Date")+
+        scale_fill_viridis_c()
+
+        ggsave(
+            filename = path, 
+            plot = p,
+            width = 5,
+            height = 5,
+            dpi = 150
+            )
+        print(paste0("Successfully saved plot for: ", file))
+    }, error = function(e) {
+        print(paste0("Error in file: ", file))
+    })
 }
-
-
