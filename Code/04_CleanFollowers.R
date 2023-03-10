@@ -39,15 +39,24 @@ lapply(users, function(x) {
     })
 })
 
-library(ggplot2)
 # Create all follower-order plots
 for(file in list.files("../Followers/Media_clean/")){
+    # Check whether png already exists
+    path <- paste0("../Results/FollowerOrder/",str_replace(file,".csv.gz",".png"))
+    if(file.exists(path)){
+        print(paste0("File already exists: ", file))
+        next
+    }
     # Make load silent
     suppressMessages(followers <- read_csv(paste0("../Followers/Media_clean/",file)))
     followers <- followers %>% filter(created_at > "2005-01-01" & created_at < "2023-04-01")
     print(paste("Successfully read file:", file))
 
-    p <- ggplot(data = followers, aes(x = follow_order, y = created_at))+
+    followers <- followers %>% distinct(id, .keep_all = TRUE)
+    # Create new follower_order2
+    followers$follow_order2 <- nrow(followers):1
+
+    p <- ggplot(data = followers, aes(x = follow_order2, y = created_at))+
       geom_bin_2d(bins = 250)+
       theme_bw()+
       theme(legend.position = "none", 
@@ -56,7 +65,6 @@ for(file in list.files("../Followers/Media_clean/")){
       xlab("Follower Order")+
       ylab("Creation Date")+
       scale_fill_viridis_c()
-    path <- paste0("../Results/FollowerOrder/",str_replace(file,".csv.gz",".png"))
     ggsave(
         filename = path, 
         plot = p,
@@ -66,3 +74,5 @@ for(file in list.files("../Followers/Media_clean/")){
         )
     print(paste0("Successfully saved plot for: ", file))
 }
+
+
