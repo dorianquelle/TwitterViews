@@ -62,7 +62,7 @@ for(file in list.files("../Followers/Media_clean/")){
         plot = p,
         width = 5,
         height = 5,
-        dpi = 50
+        dpi = 150
         )
     print(paste0("Successfully saved plot for: ", file))
 }
