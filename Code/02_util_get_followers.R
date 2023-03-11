@@ -3,6 +3,11 @@ get_user_followers_pimped <- function(x, bearer_tokens){
 }
 
 get_user_edges_pimped <- function(x, bearer_tokens, wt, verbose = TRUE){  
+  if(!dir.exists(paste0(".temp/",x[i],"/"))){ # see bind_rows comment below. 
+        dir.create(paste0(".temp/",x[i],"/"))
+      }
+
+  all_bearer_tokens = bearer_tokens
   url <- "https://api.twitter.com/2/users/"
   
 endpoint <- "/followers"
@@ -24,7 +29,6 @@ params <- list(
         params[["pagination_token"]] <- next_token
       }
       c_bearer_token = bearer_tokens[count_pages %% length(bearer_tokens) + 1]
-
       # Try Catch the query, If error remove the current token. 
       tryCatch({
         dat <- make_query(url = requrl, params = params, bearer_token = c_bearer_token, verbose = verbose)   
@@ -32,14 +36,27 @@ params <- list(
         if(length(bearer_tokens) > 1){
           bearer_tokens = bearer_tokens[-which(bearer_tokens == c_bearer_token)]
         } else {
-          print("No more tokens to try. Exiting.")
+          print("No more tokens to try.")
+          # Here we should just assume that something went wrong and re-use all tokens
+          bearer_tokens <- all_bearer_tokens
         }
       })
 
       next_token <- dat$meta$next_token #this is NULL if there are no pages left
       new_rows <- dat$data
       new_rows$from_id <- x[i]
-      new_df <- dplyr::bind_rows(new_df, new_rows) # add new rows
+      # This line becomes incredibly inefficient if we have a lot of users
+      #new_df <- dplyr::bind_rows(new_df, new_rows) # add new rows
+
+      # We need to create a temp folder with the outputs. 
+      # Export new_rows to the temp folder with name f"{x[i]}_{count_pages}_{next_token}.csv"
+      # This asssures that we always have a well ordered list of files and incase of an error
+      # We can extract the next token to continue from.
+
+      # Export new_rows
+      write.csv(new_rows, paste0(".temp/",x[i],"/",x[i],"_",count_pages,"_",next_token,".csv"), row.names = FALSE)
+
+
       
       cat("Total data points: ",nrow(new_df), "\n")
       Sys.sleep(1)
@@ -54,6 +71,29 @@ params <- list(
       Sys.sleep(1)
     }
   }
+  # Bind all the files in the temp folder to a single dataframe
+  # Delete the temp folder
+  tryCatch({
+    temp_files <- list.files(paste0(".temp/",x[i],"/"), pattern = "*.csv", full.names = TRUE)
+    # Sort by inverse creation_time
+    temp_files <- temp_files[order(file.info(temp_files)$ctime, decreasing = TRUE)]
+
+    new_df <-  temp_files %>%  
+        map_df(read_csv, col_types = cols()) %>% 
+        bind_rows()
+    # Delete the temp folder using unlink
+    unlink(paste0(".temp/",x[i],"/"), recursive = TRUE)
+  }, error = function(e){
+    print("Error in bind_rows. So we do not delete")
+    # Check whether new_df exists in the environment
+    if(exists("new_df")){
+      return(new_df)
+    } else {
+      print("new_df does not exist")
+      print(paste("FATAL ERROR in ", x[i]))
+    }
+  }
+ 
   return(new_df)
 }
 
